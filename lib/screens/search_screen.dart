@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterinstagramclone/models/user_data.dart';
 import 'package:flutterinstagramclone/models/user_model.dart';
 import 'package:flutterinstagramclone/screens/profile_screen.dart';
 import 'package:flutterinstagramclone/services/database_service.dart';
+import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -20,13 +22,14 @@ class _SearchScreenState extends State<SearchScreen> {
         radius: 20.0,
         backgroundImage: user.profileImageUrl.isEmpty
             ? AssetImage("assets/images/indir.jpg")
-            : CachedNetworkImageProvider(user.profileImageUrl),
+            : CachedNetworkImageProvider(user.profileImageUrl) ,
       ),
       title: Text(user.name),
       onTap: () => Navigator.push(
           context,
-          MaterialPageRoute(
+          MaterialPageRoute( 
               builder: (_) => ProfileScreen(
+                    currentUserId:Provider.of<UserData>(context).currentUserId,
                     userId: user.id,
                   ))),
     );
